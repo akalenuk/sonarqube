@@ -244,7 +244,7 @@ public interface WebService extends Definable<WebService.Context> {
 
   class NewAction {
     private final String key;
-    private final String PAGE_PARAM_DESCRIPTION = "1-based page number";
+    private static final String PAGE_PARAM_DESCRIPTION = "1-based page number";
     private String deprecatedKey;
     private String description;
     private String since;
