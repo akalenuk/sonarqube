@@ -95,4 +95,11 @@ public class DefaultSensorContextTest {
     assertThat(adaptor.newCpdTokens()).isEqualTo(DefaultSensorContext.NO_OP_NEW_CPD_TOKENS);
     assertThat(adaptor.newCoverage()).isEqualTo(DefaultSensorContext.NO_OP_NEW_COVERAGE);
   }
+
+  @Test
+  public void shouldSkipDupsAndCoverageOnPullRequests() {
+    when(branchConfig.isPullRequest()).thenReturn(true);
+    assertThat(adaptor.newCpdTokens()).isEqualTo(DefaultSensorContext.NO_OP_NEW_CPD_TOKENS);
+    assertThat(adaptor.newCoverage()).isEqualTo(DefaultSensorContext.NO_OP_NEW_COVERAGE);
+  }
 }

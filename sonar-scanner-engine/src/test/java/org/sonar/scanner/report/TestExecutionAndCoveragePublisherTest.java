@@ -51,4 +51,18 @@ public class TestExecutionAndCoveragePublisherTest {
     verifyZeroInteractions(componentStore);
   }
 
+  @Test
+  public void do_nothing_for_pull_requests() throws IOException {
+    BranchConfiguration branchConfiguration = mock(BranchConfiguration.class);
+    when(branchConfiguration.isPullRequest()).thenReturn(true);
+    InputComponentStore componentStore = mock(InputComponentStore.class);
+    TestExecutionAndCoveragePublisher publisher = new TestExecutionAndCoveragePublisher(componentStore, null, branchConfiguration);
+    File outputDir = temp.newFolder();
+    ScannerReportWriter writer = new ScannerReportWriter(outputDir);
+
+    publisher.publish(writer);
+
+    verifyZeroInteractions(componentStore);
+  }
+
 }

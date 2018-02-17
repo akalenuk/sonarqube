@@ -189,6 +189,19 @@ public class DefaultSensorStorageTest {
   }
 
   @Test
+  public void should_skip_file_measure_on_pull_request_when_file_status_is_SAME() {
+    InputFile file = new TestInputFileBuilder("foo", "src/Foo.php").setStatus(InputFile.Status.SAME).build();
+    when(branchConfiguration.isPullRequest()).thenReturn(true);
+
+    underTest.store(new DefaultMeasure()
+      .on(file)
+      .forMetric(CoreMetrics.NCLOC)
+      .withValue(10));
+
+    verifyZeroInteractions(measureCache);
+  }
+
+  @Test
   public void should_save_project_measure() throws IOException {
     String projectKey = "myProject";
     DefaultInputModule module = new DefaultInputModule(ProjectDefinition.create().setKey(projectKey).setBaseDir(temp.newFolder()).setWorkDir(temp.newFolder()));

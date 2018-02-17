@@ -109,6 +109,17 @@ public class CpdExecutorTest {
     verifyZeroInteractions(index);
   }
 
+  @Test
+  public void skip_if_pull_request() {
+    when(branchConfig.isPullRequest()).thenReturn(true);
+    index = mock(SonarCpdBlockIndex.class);
+    executor = new CpdExecutor(settings, index, publisher, componentStore, branchConfig);
+
+    executor.execute();
+
+    verifyZeroInteractions(index);
+  }
+
   private DefaultInputFile createComponent(String relativePath, int lines) {
     DefaultInputFile file = new TestInputFileBuilder("foo", relativePath)
       .setModuleBaseDir(baseDir.toPath())
