@@ -74,7 +74,7 @@ public class UsersService extends BaseService {
         .setParam("login", request.getLogin())
         .setParam("name", request.getName())
         .setParam("password", request.getPassword())
-        .setParam("scmAccount", request.getScmAccount())
+        .setParam("scmAccount", request.getScmAccount() == null ? null : request.getScmAccount())
         .setParam("scmAccounts", request.getScmAccounts() == null ? null : request.getScmAccounts().stream().collect(Collectors.joining(","))),
       CreateWsResponse.parser());
   }
@@ -154,6 +154,22 @@ public class UsersService extends BaseService {
         .setParam("ps", request.getPs())
         .setParam("q", request.getQ()),
       SearchWsResponse.parser());
+  }
+
+  /**
+   *
+   * This is part of the internal API.
+   * This is a POST request.
+   * @see <a href="https://next.sonarqube.com/sonarqube/web_api/api/users/set_homepage">Further information about this action online (including a response example)</a>
+   * @since 7.0
+   */
+  public void setHomepage(SetHomepageRequest request) {
+    call(
+      new PostRequest(path("set_homepage"))
+        .setParam("parameter", request.getParameter())
+        .setParam("type", request.getType())
+        .setMediaType(MediaTypes.JSON)
+      ).content();
   }
 
   /**
