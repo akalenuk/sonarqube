@@ -389,7 +389,7 @@ public class ActivityActionTest {
     ComponentDto pullRequest = db.components().insertProjectBranch(project, b -> b.setBranchType(PULL_REQUEST));
     SnapshotDto analysis = db.components().insertSnapshot(pullRequest);
     CeActivityDto activity = insertActivity("T1", project, SUCCESS, analysis);
-    insertCharacteristic(activity, BRANCH_KEY, pullRequest.getBranch());
+    insertCharacteristic(activity, BRANCH_KEY, pullRequest.getPullRequest());
     insertCharacteristic(activity, BRANCH_TYPE_KEY, PULL_REQUEST.name());
 
     ActivityResponse response = ws.newRequest().executeProtobuf(ActivityResponse.class);
@@ -398,7 +398,7 @@ public class ActivityActionTest {
       .extracting(Task::getId, Ce.Task::getPullRequest, Ce.Task::getPullRequestTitle, Ce.Task::hasBranchType, Ce.Task::getStatus, Ce.Task::getComponentKey)
       .containsExactlyInAnyOrder(
         //TODO the pull request title must be separated from the pull request id
-        tuple("T1", pullRequest.getBranch(), pullRequest.getBranch(), false, Ce.TaskStatus.SUCCESS, pullRequest.getKey()));
+        tuple("T1", pullRequest.getPullRequest(), pullRequest.getPullRequest(), false, Ce.TaskStatus.SUCCESS, pullRequest.getKey()));
   }
 
   @Test
